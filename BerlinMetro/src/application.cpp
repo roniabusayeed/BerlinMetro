@@ -7,6 +7,7 @@
 
 int main()
 {
+	std::cout << "This line is added by Roni." << std::endl;
 	Network n;
 	UI ui(n);
 
