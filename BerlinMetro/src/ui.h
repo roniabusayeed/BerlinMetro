@@ -18,7 +18,8 @@ private:
 	void findBestConnection();
 	void addTrainConnection();
 	Network& m_network;
-	std::vector<std::string> m_menu;
+	std::vector<std::string> m_menu{ "Output all train connections", "Find the best train connection", "Add train connection data", "Leave Program" };
+
 
 
 };
