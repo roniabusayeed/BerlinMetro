@@ -17,10 +17,15 @@ double Route::duration() const
 	//TODO: take care of additional 10 min change train time
 }
 
-void Network::createRoute(gl::Node& src, gl::Node& dst, double distance, double duration)
+std::string Route::line() const
 {
-	new Route(*this, src, dst, distance, duration);
-	new Route(*this, dst, src, distance, duration);
+	return m_line;
+}
+
+void Network::createRoute(std::string line, gl::Node& src, gl::Node& dst, double distance, double duration)
+{
+	new Route(line, *this, src, dst, distance, duration);
+	new Route(line, *this, dst, src, distance, duration);
 }
 
 Network::Network()
@@ -32,6 +37,7 @@ Network::Network()
 	Station* ostbahnhof = new Station(*this, "Ostbahnhof");
 	Station* erkner = new Station(*this, "Erkner");
 
-	createRoute(*alexanderplatz, *ostkreuz, 12.0, 15.0);
-	createRoute(*ostkreuz, *erkner, 20.0, 12.0);
+	createRoute("U5 ", *alexanderplatz, *ostkreuz, 12.0, 15.0);
+	createRoute("U5 ", *ostkreuz, *erkner, 20.0, 12.0);
+	createRoute("U1 ", *alexanderplatz, *erkner, 90.0, 5.0);
 }

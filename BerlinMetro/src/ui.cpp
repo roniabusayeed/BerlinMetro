@@ -2,7 +2,6 @@
 #include "ui.h"
 #include "edge.h"
 
-std::vector<std::string> m_menu{ "Output all train connections", "Find the best train connection", "Add train connection data", "Leave Program" };
 
 void UI::loop()
 {
@@ -11,6 +10,7 @@ void UI::loop()
 	{
 		listMenuOptions();
 		choice = readChoice("> Please select menu option: ", 0, m_menu.size() - 1);
+		std::cout << "\n";
 
 		switch (choice)
 		{
@@ -62,9 +62,22 @@ void UI::outputAllConnections()
 
 void UI::findBestConnection()
 {
+	//choose optimization for distance or optimization for duration
+	std::cout << "0. Optimize for duration\n";
+	std::cout << "1. Otimize for distance\n";
+
+	unsigned choice = readChoice("> Select optimization: ", 0, 1);
+	std::cout << "\n";
+
+	if (choice == 0)
+		static_cast<Route*>(*m_network.edges().begin())->optimizeForDuration(true);
+	else if (choice == 1)
+		static_cast<Route*>(*m_network.edges().begin())->optimizeForDuration(false);
+
+
 	//Get departure station
 		//List stations to choose from by entering integer
-
+	
 	unsigned i = 0;
 	std::vector<Station*> stations;
 	for (auto station : m_network.nodes())
@@ -73,14 +86,14 @@ void UI::findBestConnection()
 		stations.push_back(station);
 		i++;
 	}
-	unsigned choice = readChoice("> Select departure Station: ", 0, m_network.nodes().size() - 1);
+	choice = readChoice("> Select departure Station: ", 0, m_network.nodes().size() - 1);
+	std::cout << "\n";
 
 	Station& src = *stations[choice];
 
+
 	//Get destination station
 				//List stations to choose from by entering integer
-
-
 
 	i = 0;
 	for (auto station : m_network.nodes())
@@ -90,6 +103,7 @@ void UI::findBestConnection()
 		i++;
 	}
 	choice = readChoice("> Select destination Station: ", 0, m_network.nodes().size() - 1);
+	std::cout << "\n";
 
 	Station& dst = *stations[choice];
 
@@ -101,10 +115,11 @@ void UI::findBestConnection()
 	for (auto edge : path)
 	{
 		Route* route = static_cast<Route*>(edge);
-		std::cout << "  - " << edge->name() << route->distance() << " km, " << route->duration() << " min). \n";
+		std::cout << "  - " << route->line() << edge->name() << " " << route->distance() << " km, " << route->duration() << " min). \n";
 		total_distance += route->distance();
 		total_duration += route->duration();
 	}
+	std::cout << "> Your journey takes " << total_duration << " min and has a distance of " << total_distance << " km.\n\n";
 }
 
 void UI::addTrainConnection()
