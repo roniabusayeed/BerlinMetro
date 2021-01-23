@@ -34,7 +34,7 @@ void Network::createRoute(std::string line, gl::Node& src, gl::Node& dst, double
 
 Network::Network()
 {
-	//TRead train, origin-station, destination-station, duration, distance from file... doesn't work yet:
+	//Read train, origin-station, destination-station, duration, distance from file... doesn't work yet:
 	/*
 	std::string line;
 

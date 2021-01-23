@@ -44,7 +44,7 @@ void UI::listMenuOptions() const
 unsigned UI::readChoice(std::string msg, unsigned min, unsigned max) const
 {
 	std::cout << msg;
-	unsigned choice;
+	int choice;
 	std::cin >> choice;
 	while ((choice < min) || (choice > max))
 	{

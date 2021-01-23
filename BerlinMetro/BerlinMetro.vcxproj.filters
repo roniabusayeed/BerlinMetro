@@ -33,7 +33,7 @@
     <ClCompile Include="src\ui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\filemanager.cpp">
+    <ClCompile Include="src\read.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -53,7 +53,7 @@
     <ClInclude Include="src\ui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\filemanager.h">
+    <ClInclude Include="src\read.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
