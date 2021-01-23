@@ -1,15 +1,21 @@
 #include "ui.h"
 #include "routes.h"
 #include "edge.h"
+#include "filemanager.h"
+#include <iostream>
+#include <fstream>
+#include <sstream>
 
 
 #include <iostream>
 
 int main()
 {
-	std::cout << "This line is added by Roni." << std::endl;
 	Network n;
 	UI ui(n);
 
 	ui.loop();
+
+
+
 }
