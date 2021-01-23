@@ -1,4 +1,4 @@
-U1 Warschauer Str -> Schlesisches Tor 0,8 2
+U1 Warschauer Str -> Schlesisches Tor: 0,8 2
 U1 Schlesisches Tor -> Gourlitzer Bahnhof: 0,9 2
 U1 Gourlitzer Bahnhof -> Kottbusser Tor: 0,7 1
 U1 Kottbusser Tor -> Prinzenstr: 0,9 2
