@@ -1,7 +1,6 @@
 #include "ui.h"
 #include "routes.h"
 #include "edge.h"
-#include "filemanager.h"
 #include "read.h"
 #include <iostream>
 #include <fstream>
@@ -13,16 +12,19 @@
 int main()
 {
 	
-	/*
-	********* Just marked as comment temporary for testing readConnections() function below **********
-
+	
+	//********* Just marked as comment temporary for testing readConnections() function below **********
+	readConnections();
 	Network n;
 	UI ui(n);
 	
 	ui.loop();
-	*/
 
-	readConnections();
+
+
+	
+
+	
 	
 
 	

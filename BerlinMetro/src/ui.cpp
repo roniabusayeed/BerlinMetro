@@ -1,7 +1,6 @@
 #include <iostream>
 #include "ui.h"
 #include "edge.h"
-#include "filemanager.h"
 
 
 void UI::loop()

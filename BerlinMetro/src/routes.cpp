@@ -1,5 +1,6 @@
 #include "routes.h"
 #include "edge.h"
+#include "read.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -34,35 +35,41 @@ void Network::createRoute(std::string line, gl::Node& src, gl::Node& dst, double
 
 Network::Network()
 {
-	//Read train, origin-station, destination-station, duration, distance from file... doesn't work yet:
-	/*
-	std::string line;
-
-	std::ifstream myfile("Berlin.txt");
-	std::string trainRead, originRead, destinationRead, arrow;
-	double durationRead, distanceRead;
-
-
-	if (myfile.is_open()) {
-		while (getline(myfile, line)) {
-			//std::cout << line << '\n';
-			std::stringstream ss{ line };
-			ss >> trainRead >> originRead >> arrow >> destinationRead >> durationRead >> distanceRead;
-
-			//One problem is that some stations contain more than one word so reading only works, if the are no whitespaces in between one station name.
-			//The other problem is that the following code doesn't work. So Probably there has to be a different way to create the stations (nodes) with the reading from file.
-
-			Station* originRead = new Station(*this, "");
-			Station* destinationRead = new Station(*this, "");
-			createRoute(trainRead, *originRead, *destinationRead, durationRead, distanceRead);
-		}
-		myfile.close();
-	}
-	else std::cout << "Unable to open file";
-	*/
-
-	//Examples for creating Nodes (Stations) and Routes (Edges):
 	
+	//Getting the data from the connections vector doesn't work yet.
+	std::string temp_line = connections[0].line;
+
+	//Creating the Nodes with data read from file
+	for (int i = 0; i < connections.size(); i++)
+	{
+		//While the last train connection of a train line is not reached only station_1 becomes a Node otherwise some Nodes would be double
+		if (connections[i+1].line == temp_line) 
+		{
+			//Here_has_to_be_a_name below has to change every time because every Node has to have a different name
+			Station* Here_has_to_be_a_station_name = new Station(*this, connections[i].station_1);
+			temp_line = connections[i].line;
+			
+			
+		}
+		//When the last train connection of a train line is reached station_1 and station_2 become Nodes in order to not skip the last station of a train line
+		else
+		{
+			//Here_has_to_be_a_name below has to change every time because every Node has to have a different name
+			Station* Here_has_to_be_a_station_name = new Station(*this, connections[i].station_1);
+			Station* Here_has_to_be_a_station_name = new Station(*this, connections[i].station_2);
+			temp_line = connections[i + 1].line;
+		}			
+
+		//creating the edges for data read from file
+		for (int i = 0; i < connections.size(); i++)
+		{
+			//Here_has_to_be_a_name has to change everytime when starting the for loop again as described above at Station*
+			createRoute(connections[i].line, *Here_has_to_be_a_name, *Here_has_to_be_a_name, connections[i].first_and_second_number, (double)connections[i].third_number);
+		}
+	}
+
+	//Examples for creating Nodes (Station*) and Edges (createRoute) without using the data from reading from file:
+	/*
 	Station* alexanderplatz = new Station(*this, "Alexanderplatz");
 	Station* ostkreuz = new Station(*this, "Ostkreuz");
 	Station* ostbahnhof = new Station(*this, "Ostbahnhof");
@@ -71,4 +78,7 @@ Network::Network()
 	createRoute("U5 ", *alexanderplatz, *ostkreuz, 12.0, 15.0);
 	createRoute("U5 ", *ostkreuz, *erkner, 20.0, 12.0);
 	createRoute("U1 ", *alexanderplatz, *erkner, 90.0, 5.0);
+	*/
+	
+	
 }

@@ -6,15 +6,7 @@
 #include "read.h"
 
 
-struct Connection
-{
-    std::string line;
-    std::string station_1;
-    std::string station_2;
-    int first_number;
-    int second_number;
-    int third_number;
-};
+
 
 std::vector<std::string> split(const std::string& str, const std::string& delim);
 
@@ -22,7 +14,7 @@ int readConnections()
 {
     const char* input_file_path = "Berlin.txt";
     std::ifstream infile(input_file_path);
-    if (! infile.is_open())
+    if (!infile.is_open())
     {
         std::cout << "Couldn't open " << input_file_path << std::endl;
         return 1;
@@ -31,7 +23,7 @@ int readConnections()
     std::vector<Connection> connections;
 
     std::string data;
-    while(std::getline(infile, data))
+    while (std::getline(infile, data))
     {
         // Parse the line read in 'data'
         auto two_parts = split(data, ":");
@@ -49,6 +41,7 @@ int readConnections()
         ss >> second_number;
         int third_number;
         ss >> third_number;
+        double first_and_second_number = (double)first_number + ((double)second_number / 10);
 
         // Create the object containg all the parsed data.
         Connection conn;
@@ -58,18 +51,20 @@ int readConnections()
         conn.first_number = first_number;
         conn.second_number = second_number;
         conn.third_number = third_number;
+        conn.first_and_second_number = first_and_second_number;
 
         // Add the object to the list of connection.
         connections.push_back(conn);
     }
 
     // Print all connections from memory to check if read correctly.
-    for (int i = 0; i < connections.size(); i++)
+    /*for (int i = 0; i < connections.size(); i++)
     {
-        std::cout << connections[i].line << " " << connections[i].station_1 << " -> " 
-        << connections[i].station_2 << ": " << connections[i].first_number << "," 
-        << connections[i].second_number << " " << connections[i].third_number << std::endl;
-    }
+ 
+        std::cout << connections[i].line << " " << connections[i].station_1 << " -> "
+            << connections[i].station_2 << ": " << connections[i].first_and_second_number << " " << connections[i].third_number << std::endl;
+        
+   }*/
 }
 
 
@@ -87,4 +82,3 @@ std::vector<std::string> split(const std::string& str, const std::string& delim)
     } while (pos < str.length() && prev < str.length());
     return tokens;
 }
-

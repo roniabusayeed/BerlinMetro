@@ -34,3 +34,4 @@ public:
 	Network();
 	void createRoute(std::string line, gl::Node& src, gl::Node& dst, double distance, double duration);
 };
+
