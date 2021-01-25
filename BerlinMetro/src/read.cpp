@@ -10,17 +10,17 @@
 
 std::vector<std::string> split(const std::string& str, const std::string& delim);
 
-int readConnections()
+std::vector<Connection> readConnections()
 {
+    std::vector<Connection> connections;
     const char* input_file_path = "Berlin.txt";
     std::ifstream infile(input_file_path);
     if (!infile.is_open())
     {
         std::cout << "Couldn't open " << input_file_path << std::endl;
-        return 1;
+        return connections;
     }
 
-    std::vector<Connection> connections;
 
     std::string data;
     while (std::getline(infile, data))
@@ -56,6 +56,8 @@ int readConnections()
         // Add the object to the list of connection.
         connections.push_back(conn);
     }
+
+    return connections;
 
     // Print all connections from memory to check if read correctly.
     /*for (int i = 0; i < connections.size(); i++)

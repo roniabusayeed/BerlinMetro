@@ -37,6 +37,7 @@ Network::Network()
 {
 	
 	//Getting the data from the connections vector doesn't work yet.
+	std::vector<Connection> connections = readConnections();
 	std::string temp_line = connections[0].line;
 
 	//Creating the Nodes with data read from file

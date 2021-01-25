@@ -2,7 +2,6 @@
 #include <vector>;
 #include <string>;
 
-int readConnections();
 struct Connection
 {
     std::string line;
@@ -14,3 +13,4 @@ struct Connection
     double first_and_second_number;
 };
 
+std::vector<Connection> readConnections();
