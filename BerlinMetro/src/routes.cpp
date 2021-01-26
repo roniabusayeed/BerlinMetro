@@ -35,37 +35,51 @@ void Network::createRoute(std::string line, gl::Node& src, gl::Node& dst, double
 
 Network::Network()
 {
-	
-	//Getting the data from the connections vector doesn't work yet.
 	std::vector<Connection> connections = readConnections();
 	std::string temp_line = connections[0].line;
+	std::vector<Station*> nodes_1;
+	bool station_double = false;
+	bool station_double_next = false;
+	int temp = 0;
+	//std::vector<Station*> nodes_2;
 
-	//Creating the Nodes with data read from file
-	for (int i = 0; i < connections.size(); i++)
+	for (int i = 0; i < 28; i++) 
 	{
-		//While the last train connection of a train line is not reached only station_1 becomes a Node otherwise some Nodes would be double
-		if (connections[i+1].line == temp_line) 
+		station_double_next = false;
+		if (i == 0)
 		{
-			//Here_has_to_be_a_name below has to change every time because every Node has to have a different name
-			Station* Here_has_to_be_a_station_name = new Station(*this, connections[i].station_1);
-			temp_line = connections[i].line;
-			
+			nodes_1.push_back(new Station(*this, connections[i].station_1));
+			//nodes_2.push_back(new Station(*this, connections[i].station_2));
 			
 		}
-		//When the last train connection of a train line is reached station_1 and station_2 become Nodes in order to not skip the last station of a train line
 		else
 		{
-			//Here_has_to_be_a_name below has to change every time because every Node has to have a different name
-			Station* Here_has_to_be_a_station_name = new Station(*this, connections[i].station_1);
-			Station* Here_has_to_be_a_station_name = new Station(*this, connections[i].station_2);
-			temp_line = connections[i + 1].line;
-		}			
+			if (station_double == true)
+			{
+				nodes_1.push_back(new Station(*this, connections[i].station_1));
+				std::cout << temp << "\n";
+				createRoute(connections[i].line, *nodes_1[2], *nodes_1[i], connections[i].first_and_second_number, (double)connections[i].third_number);
+				station_double = false;
+				station_double_next = true;
+				
+			}
 
-		//creating the edges for data read from file
-		for (int i = 0; i < connections.size(); i++)
-		{
-			//Here_has_to_be_a_name has to change everytime when starting the for loop again as described above at Station*
-			createRoute(connections[i].line, *Here_has_to_be_a_name, *Here_has_to_be_a_name, connections[i].first_and_second_number, (double)connections[i].third_number);
+			for (int y = 0; y < i; y++) {
+				if (connections[y].station_1 == connections[i].station_1)
+				{
+					temp = y;
+					createRoute(connections[i].line, *nodes_1[i - 1], *nodes_1[temp], connections[i].first_and_second_number, (double)connections[i].third_number);
+					
+					station_double = true;
+				}
+			}
+		
+			if (station_double == false && station_double_next == false)
+			{
+				nodes_1.push_back(new Station(*this, connections[i].station_1));
+				createRoute(connections[i].line, *nodes_1[i - 1], *nodes_1[i], connections[i].first_and_second_number, (double)connections[i].third_number);
+				
+			}
 		}
 	}
 
