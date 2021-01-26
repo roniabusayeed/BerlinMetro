@@ -41,47 +41,66 @@ Network::Network()
 	bool station_double = false;
 	bool station_double_next = false;
 	int temp = 0;
+	int x = 0;
 	//std::vector<Station*> nodes_2;
 
-	for (int i = 0; i < 28; i++) 
+	for (int i = 0; i < connections.size(); i++)
 	{
 		station_double_next = false;
 		if (i == 0)
 		{
 			nodes_1.push_back(new Station(*this, connections[i].station_1));
 			//nodes_2.push_back(new Station(*this, connections[i].station_2));
-			
+			x++;
 		}
 		else
 		{
 			if (station_double == true)
 			{
-				nodes_1.push_back(new Station(*this, connections[i].station_1));
-				std::cout << temp << "\n";
-				createRoute(connections[i].line, *nodes_1[2], *nodes_1[i], connections[i].first_and_second_number, (double)connections[i].third_number);
 				station_double = false;
-				station_double_next = true;
-				
-			}
+				for (int y = 0; y < i; y++) {
+					if (connections[y].station_1 == connections[i].station_1)
+					{
 
-			for (int y = 0; y < i; y++) {
-				if (connections[y].station_1 == connections[i].station_1)
-				{
-					temp = y;
-					createRoute(connections[i].line, *nodes_1[i - 1], *nodes_1[temp], connections[i].first_and_second_number, (double)connections[i].third_number);
-					
-					station_double = true;
+						createRoute(connections[i].line, *nodes_1[y], *nodes_1[temp], connections[i].first_and_second_number, (double)connections[i].third_number);
+
+						station_double = true;
+					}
+					if (station_double = false)
+					{
+						nodes_1.push_back(new Station(*this, connections[i].station_1));
+						std::cout << temp << "\n";
+						createRoute(connections[i].line, *nodes_1[temp], *nodes_1[x], connections[i].first_and_second_number, (double)connections[i].third_number);
+						station_double = false;
+						station_double_next = true;
+						x++;
+					}
+			}
 				}
-			}
-		
-			if (station_double == false && station_double_next == false)
-			{
-				nodes_1.push_back(new Station(*this, connections[i].station_1));
-				createRoute(connections[i].line, *nodes_1[i - 1], *nodes_1[i], connections[i].first_and_second_number, (double)connections[i].third_number);
-				
-			}
+				if (station_double_next == false)
+				{
+
+					for (int y = 0; y < i; y++) {
+						if (connections[y].station_1 == connections[i].station_1)
+						{
+							temp = y;
+							createRoute(connections[i].line, *nodes_1[x - 1], *nodes_1[temp], connections[i].first_and_second_number, (double)connections[i].third_number);
+
+							station_double = true;
+						}
+					}
+
+					if (station_double == false && station_double_next == false)
+					{
+						nodes_1.push_back(new Station(*this, connections[i].station_1));
+						createRoute(connections[i].line, *nodes_1[x - 1], *nodes_1[x], connections[i].first_and_second_number, (double)connections[i].third_number);
+						x++;
+					}
+				}
+			
 		}
 	}
+
 
 	//Examples for creating Nodes (Station*) and Edges (createRoute) without using the data from reading from file:
 	/*
