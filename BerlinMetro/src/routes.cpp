@@ -58,7 +58,8 @@ Network::Network()
 			if (station_double == true)
 			{
 				station_double = false;
-				for (int y = 0; y < i; y++) {
+				for (int y = 0; y < i; y++)
+				{
 					if (connections[y].station_1 == connections[i].station_1)
 					{
 
@@ -66,17 +67,18 @@ Network::Network()
 
 						station_double = true;
 					}
-					if (station_double = false)
-					{
-						nodes_1.push_back(new Station(*this, connections[i].station_1));
-						std::cout << temp << "\n";
-						createRoute(connections[i].line, *nodes_1[temp], *nodes_1[x], connections[i].first_and_second_number, (double)connections[i].third_number);
-						station_double = false;
-						station_double_next = true;
-						x++;
-					}
-			}
 				}
+				if (station_double == false)
+				{
+					nodes_1.push_back(new Station(*this, connections[i].station_1));
+					std::cout << temp << "\n";
+					//createRoute(connections[i].line, *nodes_1[temp], *nodes_1[x], connections[i].first_and_second_number, (double)connections[i].third_number);
+					station_double_next = true;
+					x++;
+				}
+
+				
+			}
 				if (station_double_next == false)
 				{
 
