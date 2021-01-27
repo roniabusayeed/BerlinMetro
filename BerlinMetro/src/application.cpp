@@ -13,7 +13,7 @@ int main()
 {
 	
 	
-	//********* Just marked as comment temporary for testing readConnections() function below **********
+
 	readConnections();
 	Network n;
 	UI ui(n);
