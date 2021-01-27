@@ -1,6 +1,7 @@
 #include <iostream>
 #include "ui.h"
 #include "edge.h"
+#include "read.h"
 
 
 void UI::loop()
@@ -55,9 +56,33 @@ unsigned UI::readChoice(std::string msg, unsigned min, unsigned max) const
 
 void UI::outputAllConnections()
 {
-	//Sort by line
+	std::vector<Connection> connections = readConnections();
 
-	//Sort by alphabet
+	std::cout << "0. Sort by train line\n";
+	std::cout << "1. Sort by alphabet\n";
+
+	unsigned choice = readChoice("> Select optimization: ", 0, 1);
+	std::cout << "\n";
+
+	if (choice == 0)
+	{
+	
+		//Sort by line
+
+		for (int i = 0; i < connections.size(); i++)
+		{
+
+			std::cout << connections[i].line << " " << connections[i].station_1 << " -> "
+				<< connections[i].station_2 << ": " << connections[i].first_and_second_number << " " << connections[i].third_number << std::endl;
+
+		}
+		std::cout << "\n\n";
+	}
+	else if (choice == 1)
+	{
+		//Sort by alphabet
+	}
+
 }
 
 void UI::findBestConnection()
@@ -112,14 +137,30 @@ void UI::findBestConnection()
 	//list path
 	double total_distance = 0.0;
 	double total_duration = 0.0;
+	int amount_change_train = 0.0;
+	std::string tempo;
+
 	for (auto edge : path)
 	{
 		Route* route = static_cast<Route*>(edge);
 		std::cout << "  - " << route->line() << edge->name() << " " << route->distance() << " km, " << route->duration() << " min). \n";
-		total_distance += route->distance();
-		total_duration += route->duration();
+		if (tempo != route->line())
+		{
+			total_distance += route->distance();
+			total_duration += route->duration() + 10.0;
+			amount_change_train += 1;
+		}
+		else
+		{
+			total_distance += route->distance();
+			total_duration += route->duration();
+		}
+		
+		tempo = route->line();
 	}
-	std::cout << "> Your journey takes " << total_duration << " min and has a distance of " << total_distance << " km.\n\n";
+	total_duration -= 10.0;
+	amount_change_train -= 1;
+	std::cout << "> Your journey takes " << total_duration << " min and has a distance of " << total_distance << " km. " << "You need to change the train line " << amount_change_train << " times.\n\n";
 }
 
 void UI::addTrainConnection()

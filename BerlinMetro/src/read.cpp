@@ -45,7 +45,7 @@ std::vector<Connection> readConnections()
 
         // Create the object containg all the parsed data.
         Connection conn;
-        conn.line = line;
+        conn.line = line + " ";
         conn.station_1 = station_1;
         conn.station_2 = station_2;
         conn.first_number = first_number;

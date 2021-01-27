@@ -36,22 +36,34 @@ void Network::createRoute(std::string line, gl::Node& src, gl::Node& dst, double
 Network::Network()
 {
 	std::vector<Connection> connections = readConnections();
-	std::string temp_line = connections[0].line;
 	std::vector<Station*> nodes_1;
 	bool station_double = false;
 	bool station_double_next = false;
 	int temp = 0;
 	int x = 0;
-	//std::vector<Station*> nodes_2;
 
 	for (int i = 0; i < connections.size(); i++)
 	{
 		station_double_next = false;
-		if (i == 0)
+		if (i == 0 || connections[i].line != connections[i - 1].line)
 		{
-			nodes_1.push_back(new Station(*this, connections[i].station_1));
-			//nodes_2.push_back(new Station(*this, connections[i].station_2));
-			x++;
+			if (i == 0)
+			{
+				nodes_1.push_back(new Station(*this, connections[i].station_1));
+				//nodes_2.push_back(new Station(*this, connections[i].station_2));
+				x++;
+			}
+			else
+			{
+				for (int y = 0; y < i; y++)
+				{
+					if (connections[y].station_1 == connections[i].station_1)
+					{
+						temp = y;
+						station_double = true;
+					}
+				}
+			}
 		}
 		else
 		{
@@ -62,17 +74,13 @@ Network::Network()
 				{
 					if (connections[y].station_1 == connections[i].station_1)
 					{
-
 						createRoute(connections[i].line, *nodes_1[y], *nodes_1[temp], connections[i].first_and_second_number, (double)connections[i].third_number);
-
 						station_double = true;
 					}
 				}
 				if (station_double == false)
 				{
 					nodes_1.push_back(new Station(*this, connections[i].station_1));
-					std::cout << temp << "\n";
-					//createRoute(connections[i].line, *nodes_1[temp], *nodes_1[x], connections[i].first_and_second_number, (double)connections[i].third_number);
 					station_double_next = true;
 					x++;
 				}
